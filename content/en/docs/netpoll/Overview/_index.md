@@ -26,7 +26,7 @@ has excellent [Performance](#performance), and is more suitable for microservice
 Also [Netpoll][Netpoll] provides a number of [Features](#features),
 and it is recommended to replace [net][net] in some RPC scenarios.
 
-We developed the RPC framework [Kitex][Kitex] and HTTP framework [Hertz][Hertz] (coming soon) based on [Netpoll][Netpoll], both with industry-leading performance.
+We developed the RPC framework [Kitex][Kitex] and HTTP framework [Hertz][Hertz] based on [Netpoll][Netpoll], both with industry-leading performance.
 
 [Examples][netpoll-example] show how to build RPC client and server using [Netpoll][Netpoll].
 
@@ -43,10 +43,8 @@ We developed the RPC framework [Kitex][Kitex] and HTTP framework [Hertz][Hertz] 
     - Linux, macOS (operating system)
 
 * **Future**
-    - [multisyscall][multisyscall] supports batch system calls
     - [io_uring][io_uring]
     - Shared Memory IPC
-    - Serial scheduling I/O, suitable for pure computing
     - TLS
     - UDP
 
@@ -61,7 +59,7 @@ In the RPC scenario, concurrency and timeout are necessary support items.
 We provide the [netpoll-benchmark][netpoll-benchmark] project to track and compare
 the performance of [Netpoll][Netpoll] and other frameworks under different conditions for reference.
 
-More benchmarks reference [kitex-benchmark][kitex-benchmark] and [hertz-benchmark][hertz-benchmark] (open source soon).
+More benchmarks reference [kitex-benchmark][kitex-benchmark] and [hertz-benchmark][hertz-benchmark]
 
 ## Reference
 
@@ -87,8 +85,7 @@ More benchmarks reference [kitex-benchmark][kitex-benchmark] and [hertz-benchmar
 [Redis]: https://redis.io
 [HAProxy]: http://www.haproxy.org
 
-[LinkBuffer]: nocopy_linkbuffer.go
+[LinkBuffer]: https://github.com/cloudwego/netpoll/blob/develop/nocopy_linkbuffer.go
 [gopool]: https://github.com/bytedance/gopkg/tree/develop/util/gopool
 [mcache]: https://github.com/bytedance/gopkg/tree/develop/lang/mcache
-[multisyscall]: https://github.com/cloudwego/multisyscall
 [io_uring]: https://github.com/axboe/liburing

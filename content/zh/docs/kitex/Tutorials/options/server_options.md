@@ -2,10 +2,11 @@
 title: "Server Option"
 date: 2022-06-20
 weight: 2
-description: >
+keywords: ["Kitex", "Server", "Option"]
+description: Kitex Server Option 使用说明。
 ---
 
-# 用法
+## 用法
 
 在创建服务端时，带上 Option 参数即可：
 
@@ -15,19 +16,19 @@ svr := api.NewServer(new(DemoImpl), server.WithXXX...)
 
 
 
-# 基础 Option
+## 基础 Option
 
-#### 基本信息 - WithServerBasicInfo
+### 基本信息 - WithServerBasicInfo
 
 ```go
 func WithServerBasicInfo(ebi *rpcinfo.EndpointBasicInfo) Option
 ```
 
-设置 Server 侧的 RPC 调用基本信息，例如 ServiceName，Method 和 Tags。
+设置 Server 侧的 Service 信息，包括 ServiceName 和自定义的 Tags，自定义 Tag 如 Cluster、IDC、Env，无需设置 EndpointBasicInfo 的 Method 字段。强烈建议配置该 Option，会用于服务注册。
 
 
 
-#### 指定地址 - WithServiceAddr
+### 指定地址 - WithServiceAddr
 
 ```go
 func WithServiceAddr(addr net.Addr) Option
@@ -44,7 +45,7 @@ func WithServiceAddr(addr net.Addr) Option
 
 
 
-#### 多路复用 - WithMuxTransport
+### 多路复用 - WithMuxTransport
 
 ```go
 func WithMuxTransport() Option
@@ -54,7 +55,7 @@ func WithMuxTransport() Option
 
 
 
-#### 中间件扩展 - WithMiddleware
+### 中间件扩展 - WithMiddleware
 
 ```go
 func WithMiddleware(mw endpoint.Middleware) Option
@@ -64,7 +65,7 @@ func WithMiddleware(mw endpoint.Middleware) Option
 
 
 
-#### 中间件扩展 - WithMiddlewareBuilder
+### 中间件扩展 - WithMiddlewareBuilder
 
 ```go
 func WithMiddlewareBuilder(mwb endpoint.MiddlewareBuilder, funcName ...string) Option
@@ -74,7 +75,7 @@ func WithMiddlewareBuilder(mwb endpoint.MiddlewareBuilder, funcName ...string) O
 
 
 
-#### 限流控制 - WithLimit
+### 限流控制 - WithLimit
 
 ```go
 func WithLimit(lim *limit.Option) Option
@@ -84,7 +85,7 @@ func WithLimit(lim *limit.Option) Option
 
 
 
-#### 超时设置 - WithReadWriteTimeout
+### 超时设置 - WithReadWriteTimeout
 
 ```go
 func WithReadWriteTimeout(d time.Duration) Option
@@ -96,7 +97,7 @@ func WithReadWriteTimeout(d time.Duration) Option
 
 
 
-#### 退出等待 - WithExitWaitTime
+### 退出等待 - WithExitWaitTime
 
 ```go
 func WithExitWaitTime(timeout time.Duration) Option
@@ -106,7 +107,7 @@ func WithExitWaitTime(timeout time.Duration) Option
 
 
 
-#### 连接闲置设置 - WithMaxConnIdleTime
+### 连接闲置设置 - WithMaxConnIdleTime
 
 ```go
 func WithMaxConnIdleTime(timeout time.Duration) Option 
@@ -116,13 +117,13 @@ func WithMaxConnIdleTime(timeout time.Duration) Option
 
 
 
-#### 埋点粒度 - WithStatsLevel
+### 埋点粒度 - WithStatsLevel
 
 ```go
 func WithStatsLevel(level stats.Level) Option
 ```
 
-为 Server 设置埋点粒度，详见[埋点粒度](https://www.cloudwego.io/zh/docs/kitex/tutorials/basic-feature/tracing/)。
+为 Server 设置埋点粒度，详见[埋点粒度](https://www.cloudwego.io/zh/docs/kitex/tutorials/observability/tracing/)。
 
 
 
@@ -212,9 +213,9 @@ func WithGRPCMaxHeaderListSize(s uint32) Option
 
 
 
-# 高级 Option
+## 高级 Option
 
-#### 配套扩展 - WithSuite
+### 配套扩展 - WithSuite
 
 ```go
 func WithSuite(suite Suite) Option
@@ -224,7 +225,7 @@ func WithSuite(suite Suite) Option
 
 
 
-#### 代理 - WithProxy
+### 代理 - WithProxy
 
 ```go
 func WithProxy(p proxy.ReverseProxy) Option
@@ -234,7 +235,7 @@ func WithProxy(p proxy.ReverseProxy) Option
 
 
 
-#### 注册信息 - WithRegistryInfo
+### 注册信息 - WithRegistryInfo
 
 ```go
 func WithRegistryInfo(info *registry.Info) Option
@@ -244,7 +245,7 @@ func WithRegistryInfo(info *registry.Info) Option
 
 
 
-#### 泛化调用 - WithGeneric
+### 泛化调用 - WithGeneric
 
 ```go
 func WithGeneric(g generic.Generic) Option
@@ -254,7 +255,7 @@ func WithGeneric(g generic.Generic) Option
 
 
 
-#### 异常处理 - WithErrorHandler
+### 异常处理 - WithErrorHandler
 
 ```go
 func WithErrorHandler(f func(error) error) Option
@@ -264,7 +265,7 @@ func WithErrorHandler(f func(error) error) Option
 
 
 
-#### 权限控制 - WithACLRules
+### 权限控制 - WithACLRules
 
 ```go
 func WithACLRules(rules ...acl.RejectFunc) Option
@@ -274,7 +275,7 @@ func WithACLRules(rules ...acl.RejectFunc) Option
 
 
 
-#### 退出信号 - WithExitSignal
+### 退出信号 - WithExitSignal
 
 ```go
 func WithExitSignal(f func() <-chan error) Option 
@@ -284,7 +285,7 @@ func WithExitSignal(f func() <-chan error) Option
 
 
 
-#### 端口重用 - WithReusePort
+### 端口重用 - WithReusePort
 
 ```go
 func WithReusePort(reuse bool) Option
@@ -294,9 +295,9 @@ func WithReusePort(reuse bool) Option
 
 
 
-# 扩展 Option
+## 扩展 Option
 
-#### 服务发现 - WithRegistry
+### 服务发现 - WithRegistry
 
 ```go
 func WithRegistry(r registry.Registry) Option
@@ -306,17 +307,17 @@ func WithRegistry(r registry.Registry) Option
 
 
 
-#### 链路监控 - WithTracer
+### 链路监控 - WithTracer
 
 ```go
 func WithTracer(c stats.Tracer) Option
 ```
 
-额外添加一个 Tracer 进行链路监控，详见[链路跟踪-自定义 tracer](https://www.cloudwego.io/zh/docs/kitex/tutorials/service-governance/tracing/)。
+额外添加一个 Tracer 进行链路监控，详见[链路跟踪-自定义 tracer](https://www.cloudwego.io/zh/docs/kitex/tutorials/observability/tracing/)。
 
 
 
-#### 编解码 - WithCodec
+### 编解码 - WithCodec
 
 ```go
 func WithCodec(c remote.Codec) Option
@@ -326,7 +327,7 @@ func WithCodec(c remote.Codec) Option
 
 
 
-#### Payload 编解码 - WithPayloadCodec
+### Payload 编解码 - WithPayloadCodec
 
 ```go
 func WithPayloadCodec(c remote.PayloadCodec) Option
@@ -336,7 +337,7 @@ func WithPayloadCodec(c remote.PayloadCodec) Option
 
 
 
-#### 元信息处理 - WithMetaHandler
+### 元信息处理 - WithMetaHandler
 
 ```go
 func WithMetaHandler(h remote.MetaHandler) Option
@@ -346,7 +347,7 @@ func WithMetaHandler(h remote.MetaHandler) Option
 
 
 
-#### IO Bound 扩展 - WithBoundHandler
+### IO Bound 扩展 - WithBoundHandler
 
 ```go
 func WithBoundHandler(h remote.BoundHandler) Option
@@ -356,7 +357,7 @@ func WithBoundHandler(h remote.BoundHandler) Option
 
 
 
-#### 并发限制 - WithConcurrencyLimiter
+### 并发限制 - WithConcurrencyLimiter
 
 ```go
 func WithConcurrencyLimiter(conLimit limiter.ConcurrencyLimiter) Option
@@ -366,7 +367,7 @@ func WithConcurrencyLimiter(conLimit limiter.ConcurrencyLimiter) Option
 
 
 
-#### QPS 限制 - WithQPSLimiter
+### QPS 限制 - WithQPSLimiter
 
 ```go
 func WithQPSLimiter(qpsLimit limiter.RateLimiter) Option
@@ -376,7 +377,7 @@ func WithQPSLimiter(qpsLimit limiter.RateLimiter) Option
 
 
 
-#### 限流报告器 - WithLimitReporter
+### 限流报告器 - WithLimitReporter
 
 ```go
 func WithLimitReporter(r limiter.LimitReporter) Option
@@ -386,7 +387,7 @@ func WithLimitReporter(r limiter.LimitReporter) Option
 
 
 
-#### 传输扩展 - WithTransHandlerFactory
+### 传输扩展 - WithTransHandlerFactory
 
 ```go
 func WithTransHandlerFactory(f remote.ServerTransHandlerFactory) Option
@@ -396,7 +397,7 @@ func WithTransHandlerFactory(f remote.ServerTransHandlerFactory) Option
 
 
 
-#### 传输扩展 - WithTransServerFactory
+### 传输扩展 - WithTransServerFactory
 
 ```go
 func WithTransServerFactory(f remote.TransServerFactory) Option
@@ -406,7 +407,7 @@ func WithTransServerFactory(f remote.TransServerFactory) Option
 
 
 
-#### 诊断扩展 - WithDiagnosisService
+### 诊断扩展 - WithDiagnosisService
 
 ```go
 func WithDiagnosisService(ds diagnosis.Service) Option

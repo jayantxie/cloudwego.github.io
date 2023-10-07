@@ -1,12 +1,16 @@
 ---
 date: 2022-04-01
 title: "CloudWeGo 助 NextArch 基金会推动标准化建设"
+projects: ["CloudWeGo"]
 linkTitle: "CloudWeGo 助 NextArch 基金会推动标准化建设"
-description: >
+keywords: ["CloudWeGo", "NextArch", "微服务", "标准化建设"]
+description: "CloudWeGo 加入 NextArch 基金会微服务技术小组，推动微服务技术和开源生态的持续发展，针对不同行业和应用场景输出标准化解决方案。"
 author: <a href="https://github.com/nextarch" target="_blank">NextArch</a>
 ---
 
->  导语：2022 年 3 月，NextArch 基金会正式成立微服务技术小组，致力于推动微服务技术和开源生态的持续发展，根据各个企业在微服务生产实践中遇到的问题，针对不同行业和应用场景输出标准化解决方案，并且联合 PolarisMesh、TARS、go-zero、GoFrame、**[CloudWeGo](https://github.com/cloudwego)** 和 Spring Cloud Tencent 等开源社区提供开箱即用的实现，降低终端用户的使用门槛。来自腾讯、字节跳动、七牛云、快手、BIGO、好未来和蓝色光标等多家企业的技术专家已经加入技术小组，欢迎更多企业和开源社区加入。
+> 导语：2022 年 3 月，NextArch 基金会正式成立微服务技术小组，致力于推动微服务技术和开源生态的持续发展，根据各个企业在微服务生产实践中遇到的问题，针对不同行业和应用场景输出标准化解决方案，
+> 并且联合 PolarisMesh、TARS、go-zero、GoFrame、**[CloudWeGo](https://github.com/cloudwego)** 和 Spring Cloud Tencent 等开源社区提供开箱即用的实现，降低终端用户的使用门槛。
+> 来自腾讯、字节跳动、七牛云、快手、BIGO、好未来和蓝色光标等多家企业的技术专家已经加入技术小组，欢迎更多企业和开源社区加入。
 
 2021 年 11 月，Linux 基金会正式成立 NextArch 基金会，共计 40 余家企业或单位联合参与了该基金会的筹建工作，并作为首批共建和支持单位加入，目前已增至 53 家企业。NextArch 基金会致力于在异构基础设施、多元化技术栈和混合云场景下的构建下一代技术架构，始终秉承一个开放中立的治理模式，发展适合企业数字化转型的开源生态。
 
@@ -49,4 +53,3 @@ author: <a href="https://github.com/nextarch" target="_blank">NextArch</a>
 字节跳动微服务架构师，CloudWeGo 开源负责人。CloudWeGo 是一套由字节跳动开源的、可快速构建企业级云原生架构的中间件集合，专注于解决微服务通信与治理的难题，具备高性能、可扩展、高可靠的特点。
 
 微服务技术发展至今，业界涌现出一大批微服务开发框架、技术和最佳实践。这个多样化是不可避免的，没有一个微服务开发框架能够统一所有的语言，但是微服务架构里面所涉及的服务治理体系，却可以做到统一和规范化。NextArch 微服务 SIG 正是在这样的背景下诞生了，旨在提供统一服务治理体系，解决共性问题，将促进微服务框架和技术的进一步演进和发展。
-

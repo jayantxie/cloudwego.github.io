@@ -2,7 +2,8 @@
 title: "Customize Error Handler"
 date: 2022-07-22
 weight: 4
-description: >
+keywords: ["Kitex", "Error Handler", "Middleware"]
+description: RPC is based on the protocol and there is no unified error code specification, so Kitex provides ErrorHandler to customize error handling.
 ---
 
 Some users will ask how to let the client-side receive the corresponding error type of the server-side, here to explain, RPC communicates through the protocol, and error handling is also based on the protocol. Usually when the server returns Error, the framework will unify the Error encoding and return it to the client side. If you want the client to return the same error as the server-side, you need to define a set of error codes for handling. However, considering that RPC does not have a unified error code specification, and internal error codes are not necessarily applicable to external users, so the open source part of Kitex does not expose the error code definition, and users can customize their own error handler by using the provided **ErrorHandler**.
@@ -22,32 +23,35 @@ This function is executed after the server-side handler and before the middlewar
 
 * ErrorHandler example：
 
-  Kitex wraps the error returned by the handler as kerrors.ErrBiz, if you want to get the original error you need to Unwrap it first.
+  Kitex wraps the error returned by the server handler as kerrors.ErrBiz, if you want to get the original error you need to Unwrap it first.
 
 ```go
 // convert errors that can be serialized
-func ServerErrorHandler(err error) error {
-   if errors.Is(err, kerrors.ErrBiz) {
-       err = errors.Unwrap(err)
-   }
-   if errCode, ok := GetErrorCode(err); ok {
-       // for Thrift、KitexProtobuf
-       return remote.NewTransError(errCode, err)
-   }
-   return err
+func ServerErrorHandler(ctx context.Context, err error) error {
+    // if you want get other rpc info, you can get rpcinfo first, like `ri := rpcinfo.GetRPCInfo(ctx)`
+    // for example, get remote address: `remoteAddr := rpcinfo.GetRPCInfo(ctx).From().Address()`
+    
+    if errors.Is(err, kerrors.ErrBiz) {
+        err = errors.Unwrap(err)
+    }
+    if errCode, ok := GetErrorCode(err); ok {
+        // for Thrift、KitexProtobuf
+        return remote.NewTransError(errCode, err)
+    }
+    return err
 }
 
 // convert errors that can be serialized
-func ServerErrorHandler(err error) error {
-   if errors.Is(err, kerrors.ErrBiz) {
-       err = errors.Unwrap(err)
-   }
-   if errCode, ok := GetErrorCode(err); ok {
-       // for gRPC
-       // status use github.com/cloudwego/kitex/pkg/remote/trans/nphttp2/status
-       return status.Errorf(errCode, err.Error())
-   }
-   return err
+func ServerErrorHandler(ctx context.Context, err error) error {
+    if errors.Is(err, kerrors.ErrBiz) {
+        err = errors.Unwrap(err)
+    }
+    if errCode, ok := GetErrorCode(err); ok {
+        // for gRPC
+        // status use github.com/cloudwego/kitex/pkg/remote/trans/nphttp2/status
+        return status.Errorf(errCode, err.Error())
+    }
+    return err
 }
 ```
 
@@ -63,17 +67,20 @@ The handler is executed after the remote call and before the middleware is execu
 * ErrorHandler example：
 
 ```go
-func ClientErrorHandler(err error) error {
-  // for thrift、KitexProtobuf
- if e, ok := err.(*remote.TransError); ok {
-    // TypeID is error code
-  return buildYourError(e.TypeID(), e)
- }
-  // for gRPC
-  if s, ok := status.FromError(err); ok {
-  return buildYourErrorWithStatus(s.Code(), s)
- }
- return kerrors.ErrRemoteOrNetwork.WithCause(err)
+func ClientErrorHandler(ctx context.Context, err error) error {
+    // if you want get other rpc info, you can get rpcinfo first, like `ri := rpcinfo.GetRPCInfo(ctx)`
+    // for example, get remote address: `remoteAddr := rpcinfo.GetRPCInfo(ctx).To().Address()`
+    
+    // for thrift、KitexProtobuf
+    if e, ok := err.(*remote.TransError); ok {
+        // TypeID is error code
+        return buildYourError(e.TypeID(), e)
+    }
+    // for gRPC
+    if s, ok := status.FromError(err); ok {
+        return buildYourErrorWithStatus(s.Code(), s)
+    }
+    return kerrors.ErrRemoteOrNetwork.WithCause(err)
 }
 ```
 

@@ -1,8 +1,9 @@
 ---
 title: "xDS Support"
 date: 2022-08-26
-weight: 1
-description: >
+weight: 8
+keywords: ["Kitex", "xDS", "Proxyless", "Istio"]
+description: Kitex supports the xDS protocol and runs in Proxyless mode, managed by the service mesh in unify.
 ---
 
 [xDS](https://www.envoyproxy.io/docs/envoy/latest/api-docs/xds_protocol) is a set of discovery services, with the full name of "X Discovery Service", in which "X" refers to different type of discovery services, including LDS (Listener), RDS (RouteConfiguration), CDS (Cluster), and EDS (Endpoint/ClusterLoadAssignment), etc.
@@ -174,7 +175,7 @@ func main() {
 }
 ```
 
-Detailed examples can be found here [kitex-proxyless-example](https://github.com/ppzqh/kitex-proxyless-test/tree/example).
+Detailed examples can be found here [kitex-proxyless-example](https://github.com/cloudwego/kitex-examples/tree/main/proxyless).
 
 ## Limitation
 ### mTLS

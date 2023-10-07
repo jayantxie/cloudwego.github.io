@@ -16,17 +16,18 @@ use std::net::SocketAddr;
 
 lazy_static! {
     static ref CLIENT: volo_gen::volo::example::ItemServiceClient = {
-        let addr: SocketAddr = "127.0.0.1:8080".parse().unwrap();
+        let addr: SocketAddr = "[::1]:8080".parse().unwrap();
         volo_gen::volo::example::ItemServiceClientBuilder::new("volo-example")
-            .target(addr)
+            .address(addr)
             .build()
     };
 }
 
 #[volo::main]
 async fn main() {
+    tracing_subscriber::fmt::init();
     let req = volo_gen::volo::example::GetItemRequest { id: 1024 };
-    let resp = CLIENT.clone().get_item(req).await;
+    let resp = CLIENT.get_item(req).await;
     match resp {
         Ok(info) => tracing::info!("{:?}", info),
         Err(e) => tracing::error!("{:?}", e),
@@ -51,6 +52,7 @@ lazy_static = "1"
 tokio = { version = "1", features = ["full"] }
 tracing = "0.1"
 prost = "0.11"
+tracing-subscriber = "0.3"
 
 pilota = "*"
 volo =  "*"        # we recommend to use the latest framework version for new features and bug fixes
@@ -80,7 +82,7 @@ resolver = "2"
 $ cargo run --bin server
 ```
 
-最后，我们再回到当前目录，执行以下命令，即可看到执行成功（这时候没有日志输出，因为我们没有给 tracing 设置 subscriber，大家可以自行选择对应的库）：
+最后，我们再回到当前目录，执行以下命令，即可看到执行成功：
 
 ```bash
 $ cargo run --bin client

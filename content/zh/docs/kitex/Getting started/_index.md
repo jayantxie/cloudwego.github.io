@@ -2,8 +2,8 @@
 title: "快速开始"
 linkTitle: "快速开始"
 weight: 2
-description: >
-
+keywords: ["Kitex", "Golang", "Go", "快速上手", "基础教程"]
+description: "Kitex 开发环境准备、快速上手与基础教程。"
 ---
 
 ## 准备 Golang 开发环境
@@ -11,7 +11,7 @@ description: >
 1. 如果您之前未搭建 Golang 开发环境， 可以参考 [Golang 安装](https://golang.org/doc/install)
 2. 推荐使用最新版本的 Golang，我们保证最新三个正式版本的兼容性(现在 >= **v1.16**)。
 3. 确保打开 go mod 支持 (Golang >= 1.15时，默认开启)
-4. kitex 暂时没有针对 Windows 做支持，如果本地开发环境是 Windows 建议使用 [WSL2](https://docs.microsoft.com/zh-cn/windows/wsl/install)
+4. 在 Windows 环境使用，需要 kitex 版本 >= v0.5.2
 
 ## 快速上手
 
@@ -218,13 +218,13 @@ for {
 
 1. 运行 server
 
-`go run .`
+    `go run .`
 
 2. 运行 client
 
-另起一个终端后，`go run ./client`
+    另起一个终端后，`go run ./client`
 
-现在，你应该能看到客户端在调用 `Add` 方法了。
+    现在，你应该能看到客户端在调用 `Add` 方法了。
 
 ## 基础教程
 
@@ -234,11 +234,13 @@ Kitex 是一个 RPC 框架，既然是 RPC，底层就需要两大功能：
 1. Serialization 序列化
 2. Transport 传输
 
-Kitex 框架及命令行工具，默认支持 `thrift` 和 `proto3` 两种 IDL，对应的 Kitex 支持 `thrift` 和 `protobuf` 两种序列化协议。传输上 Kitex 使用扩展的 `thrift` 作为底层的传输协议（注：thrift 既是 IDL 格式，同时也是序列化协议和传输协议）。IDL 全称是 Interface Definition Language，接口定义语言。
+Kitex 框架及命令行工具，默认支持 `thrift` 和 `proto3` 两种 IDL，对应的 Kitex 支持 `thrift` 和 `protobuf` 两种序列化协议。
+传输上 Kitex 使用扩展的 `thrift` 作为底层的传输协议（注：thrift 既是 IDL 格式，同时也是序列化协议和传输协议）。IDL 全称是 Interface Definition Language，接口定义语言。
 
 ### 为什么要使用 IDL
 
-如果我们要进行 RPC，就需要知道对方的接口是什么，需要传什么参数，同时也需要知道返回值是什么样的，就好比两个人之间交流，需要保证在说的是同一个语言、同一件事。这时候，就需要通过 IDL 来约定双方的协议，就像在写代码的时候需要调用某个函数，我们需要知道函数签名一样。
+如果我们要进行 RPC，就需要知道对方的接口是什么，需要传什么参数，同时也需要知道返回值是什么样的，就好比两个人之间交流，需要保证在说的是同一个语言、同一件事。
+这时候，就需要通过 IDL 来约定双方的协议，就像在写代码的时候需要调用某个函数，我们需要知道函数签名一样。
 
 Thrift IDL 语法可参考：[Thrift interface description language](http://thrift.apache.org/docs/idl)。
 
@@ -248,11 +250,11 @@ proto3 语法可参考：[Language Guide(proto3)](https://developers.google.com/
 
 在开始后续的步骤之前，先让我们创建一个项目目录用于后续的教程。
 
-`$ mkdir example`
+`$ mkdir example-server`
 
 然后让我们进入项目目录
 
-`$ cd example`
+`$ cd example-server`
 
 ### Kitex 命令行工具
 
@@ -262,7 +264,7 @@ Kitex 自带了一个同名的命令行工具 `kitex`，用来帮助大家很方
 
 可以使用以下命令来安装或者更新 kitex：
 
-`$ go install github.com/cloudwego/kitex/tool/cmd/kitex`
+`$ go install github.com/cloudwego/kitex/tool/cmd/kitex@latest`
 
 完成后，可以通过执行 kitex 来检测是否安装成功。
 
@@ -307,9 +309,13 @@ service Echo {
 
 有了 IDL 以后我们便可以通过 kitex 工具生成项目代码了，执行如下命令：
 
-`$ kitex -module example -service example echo.thrift`
+`$ kitex -module example -service example-server echo.thrift`
 
-上述命令中，`-module` 表示生成的该项目的 go module 名，`-service` 表明我们要生成一个服务端项目，后面紧跟的 `example` 为该服务的名字。最后一个参数则为该服务的 IDL 文件。
+上述命令中：
+
+* `-module` 表示生成的该项目的 go module 名；**建议使用完整包名**，例如 `github.com/Yourname/exampleserver`
+* `-service` 表明我们要生成一个服务端项目，后面紧跟的 `example-server` 为该服务的名字
+* 最后一个参数则为该服务的 IDL 文件
 
 生成后的项目结构如下：
 ```
@@ -328,15 +334,14 @@ service Echo {
 |       `-- k-echo.go
 |-- main.go
 `-- script
-    |-- bootstrap.sh
-    `-- settings.py
+    `-- bootstrap.sh
 ```
 
 ### 获取最新的 Kitex 框架
 
 由于 kitex 要求使用 go mod 进行依赖管理，所以我们要升级 kitex 框架会很容易，只需要执行以下命令即可：
 ```
-$ go get github.com/cloudwego/kitex@latest
+$ go get -v github.com/cloudwego/kitex@latest
 $ go mod tidy
 ```
 
@@ -344,11 +349,17 @@ $ go mod tidy
 
 `github.com/apache/thrift/lib/go/thrift: ambiguous import: found package github.com/apache/thrift/lib/go/thrift in multiple modules`
 
+或
+
+`github.com/cloudwego/kitex@v0.X.X/pkg/utils/thrift.go: not enough arguments in call to t.tProt.WriteMessageBegin`
+
 先执行一遍下述命令，再继续操作：
 ```
 go mod edit -droprequire=github.com/apache/thrift/lib/go/thrift
 go mod edit -replace=github.com/apache/thrift=github.com/apache/thrift@v0.13.0
 ```
+
+这是因为 thrift 官方在 0.14 版本对 thrift 接口做了 breaking change，导致生成代码不兼容。
 
 ### 编写 echo 服务逻辑
 
@@ -359,7 +370,7 @@ package main
 
 import (
   "context"
-  "example/kitex_gen/api"
+  "example/kitex_gen/api" //如果修改了 -module 参数的值，这里的 'example' 也要相应替换
 )
 
 // EchoImpl implements the last service interface defined in the IDL.
@@ -413,22 +424,31 @@ kitex 工具已经帮我们生成好了编译和运行所需的脚本：
 
 `$ cd client`
 
-创建一个 `main.go` 文件，然后就开始编写客户端代码了。
+然后用 kitex 命令生成客户端所需的相关代码（如果该目录放在前述 example-server 目录下，则可省略此步，因为 server 代码中包含了 client 所需代码）：
+
+`$ kitex -module example echo.thrift`
+
+> 注:
+> 1. 客户端代码不需要指定 -service 参数，生成的代码在 kitex_gen 目录下；
+> 2. -module 参数 **建议使用完整的包名**，例如 `github.com/Yourname/exampleclient`
+
+然后创建一个 `main.go` 文件，就开始编写客户端代码了。
 
 #### 创建 client
 
 首先让我们创建一个调用所需的 `client`：
 
 ```go
-import "example/kitex_gen/api/echo"
+import "example/kitex_gen/api/echo" //如果修改了 -module 参数，这里要将 'example' 相应替换成相应的包名
 import "github.com/cloudwego/kitex/client"
 ...
-c, err := echo.NewClient("example", client.WithHostPorts("0.0.0.0:8888"))
+c, err := echo.NewClient("example-server", client.WithHostPorts("0.0.0.0:8888"))
 if err != nil {
   log.Fatal(err)
 }
 ```
-上述代码中，`echo.NewClient` 用于创建 `client`，其第一个参数为调用的 *服务名*，第二个参数为 *options*，用于传入参数，此处的 `client.WithHostPorts` 用于指定服务端的地址，更多参数可参考[基本特性](../tutorials/basic-feature)一节。
+上述代码中，`echo.NewClient` 用于创建 `client`，其第一个参数为调用的 *服务名*，第二个参数为 *options*，用于传入参数，
+此处的 `client.WithHostPorts` 用于指定服务端的地址，更多参数可参考[基本特性](../tutorials/basic-feature)一节。
 
 #### 发起调用
 
